@@ -57,6 +57,12 @@ footer{margin-top:40px;text-align:center;font-size:.82rem;color:var(--mut)}
 #cb-annee{font-size:.95rem;margin-top:4px}
 #cb-annee b{color:var(--fg)}
 .badge{display:inline-block;background:#1a4d36;color:var(--ok);border:1px solid #2a6b4c;border-radius:20px;padding:4px 12px;font-size:.8rem;font-weight:700}
+/* ——— étoiles cliquables (avis clients) ——— */
+.stars-in{display:flex;gap:4px;margin:8px 0 4px}
+.stars-in .star{background:transparent;border:none;cursor:pointer;font-size:1.7rem;line-height:1;color:#3a4654;padding:2px 4px;transition:color .15s,transform .1s;margin:0}
+.stars-in .star:hover{transform:scale(1.15)}
+.stars-in .star.on{color:#ffb400}
+.stars-in .star:focus{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
 /* ——— schémas (SVG authorés, data-graphics) ——— */
 .fig{border:1px solid var(--line);background:#0d1116;border-radius:14px;padding:8px;margin:18px 0 4px}
 .fig svg{width:100%;height:auto;display:block}
@@ -258,7 +264,15 @@ footer{margin-top:40px;text-align:center;font-size:.82rem;color:var(--mut)}
   <p class="hint">Tu as testé PlateCheck ? Laisse ton avis (il part directement à notre équipe) :</p>
   <form id="revform" onsubmit="return sendReview(event)" style="margin-top:6px">
     <label>Note (1-5)</label>
-    <select id="rv_score"><option value="5">5 — excellent</option><option value="4">4 — bien</option><option value="3">3 — correct</option><option value="2">2 — décevant</option><option value="1">1 — très mauvais</option></select>
+    <div class="stars-in" id="rv_stars" role="radiogroup" aria-label="Note">
+      <button type="button" class="star" data-v="1" aria-label="1 étoile">☆</button>
+      <button type="button" class="star" data-v="2" aria-label="2 étoiles">☆</button>
+      <button type="button" class="star" data-v="3" aria-label="3 étoiles">☆</button>
+      <button type="button" class="star" data-v="4" aria-label="4 étoiles">☆</button>
+      <button type="button" class="star" data-v="5" aria-label="5 étoiles">☆</button>
+      <input type="hidden" id="rv_score" value="5">
+    </div>
+    <p class="hint" id="rv_star_hint">Clique sur une étoile pour la remplir — 5 = excellent.</p>
     <label>Ton email</label>
     <input type="email" id="rv_email" placeholder="ton@email.com" required>
     <label>Ton commentaire</label>
@@ -297,6 +311,33 @@ function calc(){
   });
 });
 calc();
+/* —————— étoiles cliquables : note des avis —————— */
+(function(){
+  var wrap=document.getElementById('rv_stars');
+  if(!wrap)return;
+  var input=document.getElementById('rv_score');
+  var stars=[].slice.call(wrap.querySelectorAll('.star'));
+  function paint(v){
+    stars.forEach(function(s){
+      s.textContent=parseInt(s.getAttribute('data-v'),10)<=v?'★':'☆';
+      s.classList.toggle('on', parseInt(s.getAttribute('data-v'),10)<=v);
+    });
+  }
+  stars.forEach(function(s){
+    s.addEventListener('click',function(){
+      input.value=s.getAttribute('data-v');
+      paint(parseInt(s.getAttribute('data-v'),10));
+    });
+    s.addEventListener('mouseenter',function(){
+      paint(parseInt(s.getAttribute('data-v'),10));
+      wrap.setAttribute('data-hover','1');
+    });
+  });
+  wrap.addEventListener('mouseleave',function(){
+    if(wrap.getAttribute('data-hover')==='1'){paint(parseInt(input.value,10)||5); wrap.setAttribute('data-hover','0');}
+  });
+  paint(parseInt(input.value,10)||5);
+})();
 function signup(ev){
   ev.preventDefault();
   var em=document.getElementById('se').value.trim();
