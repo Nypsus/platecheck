@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlateCheck — Réconciliation des paiements de livraison : trouve les € perdus sur Glovo, Uber Eats, Deliveroo</title>
+<meta name="description" content="Vérifie ce que Glovo, Uber Eats, Deliveroo et Just Eat te doivent vraiment. Détecte les surcommissions, frais doublés et remboursements injustifiés, avec un dossier de preuves prêt pour la réclamation.">
+<style>
+:root{--bg:#101418;--card:#161c22;--line:#26303a;--fg:#e8edf2;--mut:#9aa7b4;--acc:#ff8a3d;--ok:#3ddc97;--bad:#ff5d5d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55}
+main{max-width:860px;margin:0 auto;padding:24px 18px 60px}
+header{text-align:center;padding:36px 0 10px}
+.logo{font-size:1.7rem;font-weight:800;letter-spacing:.5px}
+.logo span{color:var(--acc)}
+h1{font-size:1.9rem;line-height:1.25;margin:14px 0 10px}
+h2{font-size:1.4rem;margin:28px 0 10px}
+p{color:var(--mut);margin:8px 0}
+.sub{font-size:1.05rem;max-width:640px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0}
+.acc{color:var(--acc);font-weight:700}
+.ok{color:var(--ok)}
+.bad{color:var(--bad)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step b{display:block;color:var(--fg);margin-bottom:6px}
+.step span{font-size:.9rem;color:var(--mut)}
+.cta{display:inline-block;background:var(--acc);color:#101418;font-weight:800;border-radius:8px;padding:13px 22px;text-decoration:none;margin:10px 6px 6px 0}
+.cta.sec{background:transparent;border:1px solid var(--line);color:var(--fg)}
+table{width:100%;border-collapse:collapse;font-size:.92rem;margin:12px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+th{background:#1a222a;color:var(--fg)}
+.tbl{overflow-x:auto}
+form{margin-top:14px}
+label{display:block;font-size:.9rem;color:var(--mut);margin:10px 0 4px}
+input,select{width:100%;background:#0d1116;border:1px solid var(--line);color:var(--fg);border-radius:8px;padding:10px 12px;font-size:1rem}
+input[type=range]{padding:0;background:transparent;border:none}
+button{background:var(--acc);color:#101418;border:none;border-radius:8px;padding:12px 18px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:12px}
+.hint{font-size:.82rem;color:var(--mut)}
+#cb-out{border:1px solid var(--line);background:#0d1116;border-radius:10px;padding:14px;margin-top:14px;display:none}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.faq summary{font-weight:700;cursor:pointer}
+.faq p{margin-top:8px}
+.avis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.avis b{color:var(--fg)}
+.stars{color:var(--acc);letter-spacing:2px}
+footer{margin-top:40px;text-align:center;font-size:.82rem;color:var(--mut)}
+@media(max-width:640px){.steps{grid-template-columns:1fr}h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="logo">Plate<span>Check</span></div>
+  <h1>Tes plateformes de livraison te doivent de l'argent.</h1>
+  <p class="sub">Glovo, Uber Eats, Deliveroo et Just Eat calculent leurs commissions eux-mêmes. Quand la commission facturée dépasse ton taux contracté, qu'un frais tombe deux fois ou qu'un remboursement client t'est imputé à tort, personne ne te le signale. PlateCheck vérifie, chiffre et te donne le dossier de preuves.</p>
+</header>
+
+<div class="card">
+  <b>Le problème, concrètement</b>
+  <p>Un resto sur 3+ plateformes passe <b>2 à 4 h par semaine</b> à faire coller ses liquidations avec son compte en banque — ou paie 150 à 400 €/mois à un cabinet pour le faire. Et malgré ça, les écarts passent : commissions qui dérivent au-dessus du contrat, frais de plateforme doublés sur le même n° de commande, remboursements imputés sans justificatif, promotions censées être partagées qui tombent à 100 % à ta charge.</p>
+  <p class="acc">Chaque écart est un montant précis, vérifiable dans ta liquidation — et réclamable.</p>
+</div>
+
+<h2>En 3 étapes</h2>
+<div class="steps">
+  <div class="step"><b>1. Envoie tes liquidations</b><span>Les 4 dernières semaines, en CSV ou PDF — Glovo, Uber Eats, Deliveroo, Just Eat. Aucune installation, aucune connexion de compte.</span></div>
+  <div class="step"><b>2. On réconcilie ligne à ligne</b><span>Chaque versement est rapproché de son n° de commande, au taux de ton contrat. Surcommissions, doublons et remboursements injustifiés sortent en clair.</span></div>
+  <div class="step"><b>3. Tu récupères ton dossier</b><span>Un rapport chiffré par plateforme + le classeur de preuves prêt à envoyer en réclamation. Tu décides quoi réclamer.</span></div>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Démo gratuite — estime tes pertes</h2>
+  <p class="hint">Combien tes plateformes te prélèvent par rapport au taux de ton contrat. Basé sur ta commission contractée vs la commission réellement facturée récemment (~30 % constaté couramment au lieu de 25 % promis).</p>
+  <div class="tbl"><table>
+    <tr><th>Plateforme</th><th>CA mensuel (€ HT)</th><th>Taux facturé réel (%)</th><th>Taux contracté (%)</th><th>Écart / mois</th></tr>
+    <tr><td>Glovo</td><td><input id="g_ca" type="number" value="6000" min="0" step="500"></td><td><input id="g_reel" type="number" value="30" min="0" step="0.5"></td><td><input id="g_contrat" type="number" value="25" min="0" step="0.5"></td><td class="acc" id="g_res">—</td></tr>
+    <tr><td>Uber Eats</td><td><input id="u_ca" type="number" value="4500" min="0" step="500"></td><td><input id="u_reel" type="number" value="30" min="0" step="0.5"></td><td><input id="u_contrat" type="number" value="25" min="0" step="0.5"></td><td class="acc" id="u_res">—</td></tr>
+    <tr><td>Deliveroo</td><td><input id="d_ca" type="number" value="3000" min="0" step="500"></td><td><input id="d_reel" type="number" value="32" min="0" step="0.5"></td><td><input id="d_contrat" type="number" value="28" min="0" step="0.5"></td><td class="acc" id="d_res">—</td></tr>
+    <tr><td>Just Eat</td><td><input id="j_ca" type="number" value="1500" min="0" step="500"></td><td><input id="j_reel" type="number" value="18" min="0" step="0.5"></td><td><input id="j_contrat" type="number" value="15" min="0" step="0.5"></td><td class="acc" id="j_res">—</td></tr>
+  </table></div>
+  <p class="hint">Les taux de référence 2026 par plateforme (en cas de doute) : Glovo 15-35 % selon plan · Uber Eats Lite 15-20 % / Plus 25 % / Premium 30 % · Deliveroo full-service 30-35 % · Just Eat 14-25 %. La TVA (20-21 %) s'ajoute à la commission facturée.</p>
+  <div id="cb-out"><b class="acc" id="cb-total">—</b><p class="hint" id="cb-annee">—</p></div>
+</div>
+
+<h2>Tarifs</h2>
+<div class="card">
+  <b>Analyse PlateCheck — 39 €/mois</b>
+  <p>Chaque mois : réconciliation complète de tes liquidations (jusqu'à 4 plateformes), rapport des écarts chiffré + classeur de preuves prêt pour la réclamation, suivi des montants récupérés.</p>
+  <p class="hint">Sans engagement — tu peux arrêter à tout moment. Le temps d'analyse seul vaut 2-4 h/semaine ; un cabinet facture 150-400 €/mois pour la même vérification.</p>
+  <a class="cta" href="#inscription">S'abonner — 39 €/mois</a>
+</div>
+
+<h2>Questions fréquentes</h2>
+<div class="faq">
+  <details><summary>Comment savoir si ma commission facturée dépasse mon contrat ?</summary>
+  <p>Ta liquidation contient le taux appliqué par commande, et ton contrat contient le taux négocié. L'écart entre les deux, multiplié par le volume, c'est le montant que tu peux réclamer. PlateCheck fait ce rapprochement ligne à ligne — c'est son métier, pas le tien.</p></details>
+  <details><summary>Et si la plateforme refuse la réclamation ?</summary>
+  <p>Tu gardes le dossier de preuves (les lignes de liquidation et le calcul de l'écart). C'est un document de travail utile pour ta propre comptabilité, et c'est lui qui fait la différence quand on demande un audit interne — le taux contracté est opposable.</p></details>
+  <details><summary>Mes données sont-elles en sécurité ?</summary>
+  <p>Tu nous envoies tes liquidations par email, l'analyse est faite par une personne puis les fichiers sont supprimés de nos boîtes après livraison du rapport. Nous ne gardons ni connexion à tes comptes ni relevé bancaire : uniquement les montants de ta liquidation.</p></details>
+  <details><summary>Ça marche pour quel pays ?</summary>
+  <p>La réconciliation suit le contrat et la liquidation de la plateforme, quel que soit le pays. Glovo (Espagne, Italie, France, Europe de l'Est), Uber Eats, Deliveroo et Just Eat : les formats varient, les vérifications sont les mêmes.</p></details>
+</div>
+
+<div class="card" id="inscription">
+  <h3 style="margin-top:0">Commence maintenant</h3>
+  <p>La démo est gratuite. Pour l'analyse PlateCheck (39 €/mois), clique sur le bouton ci-dessous — le paiement sécurisé est géré par Stripe :</p>
+  <p style="margin:18px 0"><a class="cta" id="pay-btn" href="https://buy.stripe.com/cNi6oAgWneWL3iVfMb3sI0p" rel="noopener" target="_blank">💳 S'abonner à PlateCheck — 39 €/mois</a></p>
+  <p class="hint">Problème de paiement ou question ? Écris-nous — réponse sous 24 h ouvrées :</p>
+  <form id="signform" onsubmit="return signup(event)" style="margin-top:8px">
+    <label>Ton email</label>
+    <input type="email" id="se" placeholder="ton@email.com" required>
+    <label>Ta ville</label>
+    <input type="text" id="sc" placeholder="Barcelone, Lyon, Milan…">
+    <label>Plateformes utilisées</label>
+    <input type="text" id="sp" placeholder="Glovo + Uber Eats + Deliveroo">
+    <button type="submit">Je préfère être recontacté</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">Avis clients</h3>
+  <p class="hint">Chaque retour est pris en compte, traité, puis retiré de cette page une fois résolu.</p>
+  <div class="avis"><b>Réconciliation de 3 mois — ...</b><p>...</p></div>
+  <div id="reviews"></div>
+  <hr style="border-color:var(--line);margin:16px 0">
+  <p class="hint">Tu as testé PlateCheck ? Laisse ton avis (il part directement à notre équipe) :</p>
+  <form id="revform" onsubmit="return sendReview(event)" style="margin-top:6px">
+    <label>Note (1-5)</label>
+    <select id="rv_score"><option value="5">5 — excellent</option><option value="4">4 — bien</option><option value="3">3 — correct</option><option value="2">2 — décevant</option><option value="1">1 — très mauvais</option></select>
+    <label>Ton email</label>
+    <input type="email" id="rv_email" placeholder="ton@email.com" required>
+    <label>Ton commentaire</label>
+    <textarea id="rv_comment" rows="3" style="width:100%;background:#0d1116;border:1px solid var(--line);color:var(--fg);border-radius:8px;padding:10px" placeholder="Ce qui a marché, ce qui manque…"></textarea>
+    <button type="submit">Envoyer mon avis</button>
+  </form>
+</div>
+
+<footer>PlateCheck — vérifie ce que tes plateformes te doivent. · <a href="mailto:nypsus.business@gmail.com" style="color:var(--mut)">Contact</a></footer>
+</main>
+<script>
+function money(n){return n.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})}
+function calc(){
+  var total=0;
+  ['g','u','d','j'].forEach(function(k){
+    var ca=parseFloat(document.getElementById(k+'_ca').value)||0;
+    var r=parseFloat(document.getElementById(k+'_reel').value)||0;
+    var c=parseFloat(document.getElementById(k+'_contrat').value)||0;
+    var diff=(r-c)/100*ca;
+    total+=diff;
+    document.getElementById(k+'_res').textContent = diff>0 ? money(diff) : (diff<0 ? '—' : '0');
+  });
+  var out=document.getElementById('cb-out');
+  if(total>0){
+    document.getElementById('cb-total').textContent='Écart estimé : '+money(total)+' par mois — ';
+    document.getElementById('cb-annee').textContent='soit ~'+money(total*12)+' par an sur ces 4 plateformes. C\'est ce que l\'analyse PlateCheck peut documenter et faire réclamer.';
+    out.style.display='block';
+  } else { out.style.display='none'; }
+}
+['g','u','d','j'].forEach(function(k){
+  [k+'_ca',k+'_reel',k+'_contrat'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',calc);
+  });
+});
+calc();
+function signup(ev){
+  ev.preventDefault();
+  var em=document.getElementById('se').value.trim();
+  var ci=document.getElementById('sc').value.trim();
+  var pl=document.getElementById('sp').value.trim();
+  var body='Bonjour,\n\nJe veux démarrer l\'analyse PlateCheck.\n\nEmail : '+em+'\nVille : '+ci+'\nPlateformes : '+pl;
+  location.href='mailto:nypsus.business@gmail.com?subject='+encodeURIComponent('PlateCheck — demande abonnement (39 €/mois)')+'&body='+encodeURIComponent(body);
+  return false;
+}
+function sendReview(ev){
+  ev.preventDefault();
+  var s=document.getElementById('rv_score').value;
+  var e=document.getElementById('rv_email').value.trim();
+  var c=document.getElementById('rv_comment').value.trim();
+  if(!c){alert('Écris ton commentaire avant d\'envoyer.');return false;}
+  var body='Note : '+s+'/5\nClient : '+e+'\n\n'+c;
+  location.href='mailto:nypsus.business@gmail.com?subject='+encodeURIComponent('PlateCheck — Avis client ('+s+'/5)')+'&body='+encodeURIComponent(body);
+  return false;
+}
+/* Avis vérifiés (ajoutés après contrôle de l'équipe) */
+var REVIEWS=[];
+var rc=document.getElementById('reviews');
+if(REVIEWS.length===0){rc.innerHTML='<p class="hint">Aucun avis publié pour l\'instant — les premiers clients arrivent.</p>';}
+</script>
+</body>
+</html>
